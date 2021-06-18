@@ -1203,7 +1203,7 @@ class Niveau1 extends Phaser.Scene{
 				player.anims.play('death', true);
 				dead1=true;	
 			}
-			setTimeout(function (){player.anims.play('deathS', true)}, 500)
+		setTimeout(function (){player.anims.play('deathS', true)}, 500)
 		}
 		else if (!flecheActive){
 			if (!dead2){
@@ -1302,7 +1302,7 @@ class Niveau1 extends Phaser.Scene{
                 flecheActive = false;
                 ennemi1Mort = false;
                 ennemi2Mort = false;
-                this.scene.start("Scene2");
+                this.scene.start("Niveau1");
                 
  
             }
