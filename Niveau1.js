@@ -39,8 +39,8 @@ var etatCam2 = false;
 var compteurCam3 = 250;
 var etatCam3 = false;
 
-var levier1Actif = false;
-var levier2Actif = false;
+var levier1Actif = true;
+var levier2Actif = true;
 var levier3Actif = false;
 
 var ecranMort;
@@ -106,6 +106,10 @@ var checkpoint2B = false;
 var checkpoint3B = false;
 
 var BruitPas;
+var BruitSaut;
+var BruitLancer;
+var BruitInterrupteur;
+var BruitPorte;
 
 var levier1Off;
 var levier1On;
@@ -141,6 +145,7 @@ var direction;
 var posXplayer = 2300; // (debut : 700, 4053)
 var posYplayer = 250;
 
+var musicConfigPorte;
 
 var ennemi1;
 var ennemi2;
@@ -154,6 +159,10 @@ class Niveau1 extends Phaser.Scene{
     preload(){
         
         this.load.audio('BruitPas', 'assets/BruitPas.wav');
+        this.load.audio('BruitSaut', 'assets/BruitSaut.wav');
+        this.load.audio('BruitLancer', 'assets/BruitLancer.wav');
+        this.load.audio('BruitInterrupteur', 'assets/BruitInterrupteur.mp3');
+        this.load.audio('BruitPorte', 'assets/BruitPorte.wav');
         this.load.audio('Ambiance', 'assets/Ambiance.mp3');
         
         this.load.image('background','assets/background.png');
@@ -295,21 +304,33 @@ class Niveau1 extends Phaser.Scene{
         
         // Musique et effets sonores //
         this.BruitPas = this.sound.add('BruitPas');
+        this.BruitSaut = this.sound.add('BruitSaut');
+        this.BruitLancer = this.sound.add('BruitLancer');
+        this.BruitInterrupteur = this.sound.add('BruitInterrupteur');
+        this.BruitPorte = this.sound.add('BruitPorte');
 		this.Ambiance = this.sound.add('Ambiance')
 
         var musicConfig = {
             mute : false,
-            volume : 0.5,
+            volume : 0.4,
+            rate : 1.2,
+            deturne : 0,
+            seek : 0,
+            loop : true,
+            delay : 0,
+
+        }
+        this.Ambiance.play(musicConfig)
+		
+        musicConfigPorte = {
+            mute : false,
+            volume : 0.9,
             rate : 1.2,
             deturne : 0,
             seek : 0,
             loop : false,
             delay : 0,
-
-        }
-        this.Ambiance.play(musicConfig)
-        
-        
+		}
         // Arrière plan et parralaxe //
         this.add.image(0, 0, 'background').setOrigin(0);        
         this.add.image(-1500, -800, 'montagne').setOrigin(0).setScrollFactor(0.3);        
@@ -991,6 +1012,7 @@ class Niveau1 extends Phaser.Scene{
 		texteLettre.setAlpha(0);
 	}
 	if (levier1Actif && levier2Actif && levier3Actif){
+		this.BruitPorte.play(musicConfigPorte)
         porte.setAlpha(0);
         porteOuverte.setAlpha(1);
         if (player.x > 6486 && player.x < 7061 && player.y > 3000 && player.y < 3700){
@@ -1136,6 +1158,7 @@ class Niveau1 extends Phaser.Scene{
         levier2Off.setAlpha(0);
         levier2On.setAlpha(1);
         emmeteurFlamme2.startFollow(support2);
+
     }
 		
     if (levier3Actif){
@@ -1360,6 +1383,7 @@ class Niveau1 extends Phaser.Scene{
         if (keys.space.isDown){
         canShot = false;
         player.anims.play('lancer', true);
+		this.BruitLancer.play();
         setTimeout(function(){attaque()}, 300);
         setTimeout(function (){canShot = true}, 1000);
     
@@ -1367,6 +1391,7 @@ class Niveau1 extends Phaser.Scene{
         
 		// Animations de saut & Déplacements dans les airs //
         else if (keys.up.isDown && canjump == true || keys.z.isDown && canjump == true){
+				this.BruitSaut.play();
                 player.setVelocityY(-750);
                 player.setVelocityX(0);
                 player.anims.play('jumpLance', true);
@@ -1439,6 +1464,7 @@ class Niveau1 extends Phaser.Scene{
     	if (flecheActive && isDead == false){
      
       	if (keys.up.isDown && canjump == true || keys.z.isDown && canjump == true){
+				this.BruitSaut.play();
                 player.setVelocityY(-750);
                 player.setVelocityX(0);
                 player.anims.play('jump', true); 
@@ -1459,7 +1485,7 @@ class Niveau1 extends Phaser.Scene{
         }
         
         else if (keys.right.isDown|| keys.d.isDown){
-           
+           	this.BruitPas.play();
             direction = 'right'; 
             player.flipX = false;
             if (!canjump){
@@ -1473,6 +1499,7 @@ class Niveau1 extends Phaser.Scene{
         }
             
         else if (keys.left.isDown|| keys.q.isDown){
+			this.BruitPas.play();
             direction = 'left'; 
             player.flipX = true;
             if (!canjump){
@@ -1627,18 +1654,20 @@ function destroyCorde(corde, blocTombe){
 function ActiveLevier1(){
     levier1Actif = true;
     etatCam1 = true;
-
+	this.BruitInterrupteur.play();
 
 }
 
 function ActiveLevier2(){
     levier2Actif = true;
     etatCam2 = true;
+	this.BruitInterrupteur.play();
 }
 
 function ActiveLevier3(){
     levier3Actif = true;
     etatCam3 = true;
+	this.BruitInterrupteur.play();
 }
 function ActiveCheckpoint1(){
     pdv = 3;
