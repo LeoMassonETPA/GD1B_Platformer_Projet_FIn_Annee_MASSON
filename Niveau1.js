@@ -43,6 +43,8 @@ var levier1Actif = false;
 var levier2Actif = false;
 var levier3Actif = false;
 
+var ecranMort;
+
 
 var ennemi1Mort = false;
 var ennemi2Mort = false;
@@ -133,8 +135,8 @@ var newTirJoueur;
 var direction;
 
 
-var posXplayer = 700; // (debut : 700, 4053)
-var posYplayer = 4053;
+var posXplayer = 2300; // (debut : 700, 4053)
+var posYplayer = 250;
 
 
 var ennemi1;
@@ -156,6 +158,11 @@ class Niveau1 extends Phaser.Scene{
         this.load.image('montagne','assets/Montagnes.png');
         this.load.image('montagne2','assets/Montagnes2.png');
 		
+        this.load.image('soldatMort','assets/SoldatMort.png');
+        this.load.image('coinConduit','assets/CoinConduit.png');
+        this.load.image('ecranMort','assets/EcranMort.png');
+        this.load.image('lettre','assets/Lettre.png');
+		
 		
         this.load.image('sol','assets/sol.png');
         this.load.image('solsombre','assets/SolSombre.png');
@@ -166,6 +173,8 @@ class Niveau1 extends Phaser.Scene{
         this.load.image('plateformekillG','assets/PlateformeKillG.png');
         this.load.image('plateformekillD','assets/PlateformeKillD.png');
         this.load.image('plateformekillH','assets/PlateformeKillH.png');
+		
+        this.load.image('blocCristal','assets/BlocCristal.png');
         
         this.load.image('levierOff','assets/LevierOff.png');
         this.load.image('levierOn','assets/LevierOn.png');
@@ -434,10 +443,14 @@ class Niveau1 extends Phaser.Scene{
 		courant6.body.setAllowGravity(false);
         courant6.body.setImmovable(true);
         
+		this.add.image (2075, 154, 'coinConduit');
+		
 		cible = this.physics.add.sprite (2082, 840, 'cibleAn');
         cible.body.setAllowGravity(false);
         cible.body.setImmovable(true);
 
+		this.add.image(2120, 355, 'soldatMort');
+		this.add.image(2150, 425, 'lettre').setScale(0.5);
 		
 		bloc.create(2200,498, 'plateforme2');
 		bloc.create(2712,498, 'plateforme2');
@@ -544,12 +557,12 @@ class Niveau1 extends Phaser.Scene{
        
 		
 		// Tweens //
-		obstacleM1 = this.physics.add.image(2650 , 655, 'plateformesombre1V').setScale(0.5);
+		obstacleM1 = this.physics.add.image(2650 , 655, 'blocCristal').setScale(0.5);
         obstacleM1.setCollideWorldBounds(true);
         obstacleM1.body.setImmovable(true); 
         obstacleM1.body.setAllowGravity(false); 
         
-        obstacleM2 = this.physics.add.image(2400 , 955, 'plateformesombre1V').setScale(0.5);
+        obstacleM2 = this.physics.add.image(2400 , 955, 'blocCristal').setScale(0.5);
         obstacleM2.setCollideWorldBounds(true);
         obstacleM2.body.setImmovable(true); 
         obstacleM2.body.setAllowGravity(false);
@@ -640,10 +653,12 @@ class Niveau1 extends Phaser.Scene{
         ennemi2 = this.physics.add.sprite (8770,1800, 'ennemi2').setSize(200,200);
         ennemi2.body.setAllowGravity(false);
         ennemi2.body.setImmovable(true);
-        
+      
         ennemi1 = this.physics.add.sprite (4300,800, 'ennemi1Course').setSize(100,100);
 
         
+		ecranMort = this.add.image (960,250, 'ecranMort').setScrollFactor(0).setAlpha(0);
+		
 		// Colliders & Overlaps joueur //
         this.physics.add.collider(player, sol);
         this.physics.add.collider(player, plateforme);
@@ -1213,8 +1228,8 @@ class Niveau1 extends Phaser.Scene{
 		setTimeout(function (){player.anims.play('deathLanceS', true)}, 500)
 		}
         player.setTint(0xff0000);
+		ecranMort.setAlpha(1);
         this.physics.pause();
-        
         
         if (keys.a.isDown){
             if (checkpoint1B == true){
@@ -1241,6 +1256,7 @@ class Niveau1 extends Phaser.Scene{
                 }
                 ennemi1Mort = false;
                 ennemi2Mort = false;
+				ecranMort.setAlpha(0);
                 this.scene.start("Niveau1");
 
             }
@@ -1265,6 +1281,7 @@ class Niveau1 extends Phaser.Scene{
                 gameOver = false;
                 ennemi1Mort = false;
                 ennemi2Mort = false;
+				ecranMort.setAlpha(0);
                 this.scene.start("Niveau1");
 
             }
@@ -1289,6 +1306,7 @@ class Niveau1 extends Phaser.Scene{
                 gameOver = false;
                 ennemi1Mort = false;
                 ennemi2Mort = false;
+				ecranMort.setAlpha(0);
                 this.scene.start("Niveau1");
             }
             else {
@@ -1302,6 +1320,7 @@ class Niveau1 extends Phaser.Scene{
                 flecheActive = false;
                 ennemi1Mort = false;
                 ennemi2Mort = false;
+				ecranMort.setAlpha(0);
                 this.scene.start("Niveau1");
                 
  
