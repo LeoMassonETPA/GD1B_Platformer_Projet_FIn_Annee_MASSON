@@ -39,8 +39,8 @@ var etatCam2 = false;
 var compteurCam3 = 250;
 var etatCam3 = false;
 
-var levier1Actif = true;
-var levier2Actif = true;
+var levier1Actif = false;
+var levier2Actif = false;
 var levier3Actif = false;
 
 var ecranMort;
