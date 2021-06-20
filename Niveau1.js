@@ -44,6 +44,7 @@ var levier2Actif = false;
 var levier3Actif = false;
 
 var ecranMort;
+var lettreMort;
 
 
 var ennemi1Mort = false;
@@ -127,6 +128,8 @@ var zoneTexte3;
 var zoneTexte4;
 var zoneTexte5;
 
+var texteLettre;
+
 var porte;
 var porteOuverte;
 
@@ -162,6 +165,8 @@ class Niveau1 extends Phaser.Scene{
         this.load.image('coinConduit','assets/CoinConduit.png');
         this.load.image('ecranMort','assets/EcranMort.png');
         this.load.image('lettre','assets/Lettre.png');
+        this.load.image('lettreMort','assets/LettreMort.png');
+        this.load.image('texteLettre','assets/TexteLettre.png');
 		
 		
         this.load.image('sol','assets/sol.png');
@@ -656,8 +661,9 @@ class Niveau1 extends Phaser.Scene{
       
         ennemi1 = this.physics.add.sprite (4300,800, 'ennemi1Course').setSize(100,100);
 
-        
+        texteLettre = this.add.image (2250,200, 'texteLettre').setAlpha(0).setScale(0.8);
 		ecranMort = this.add.image (960,250, 'ecranMort').setScrollFactor(0).setAlpha(0);
+		lettreMort = this.add.image (960,540, 'lettreMort').setScrollFactor(0).setAlpha(0);
 		
 		// Colliders & Overlaps joueur //
         this.physics.add.collider(player, sol);
@@ -906,6 +912,8 @@ class Niveau1 extends Phaser.Scene{
         // Contrôles //
         keys = this.input.keyboard.addKeys({
 			
+		echap : Phaser.Input.Keyboard.KeyCodes.ESC,
+			
 		z : Phaser.Input.Keyboard.KeyCodes.Z,
             
 		a : Phaser.Input.Keyboard.KeyCodes.A,
@@ -967,7 +975,21 @@ class Niveau1 extends Phaser.Scene{
 
     } 
         
-        
+    if (player.x < 2430 && player.y < 370){
+		texteLettre.setAlpha(1);
+		if (keys.a.isDown){
+			this.physics.pause();
+			lettreMort.setAlpha(1);
+		}
+		if (keys.echap.isDown){
+			this.physics.resume();
+			lettreMort.setAlpha(0);
+		}
+	
+	}  
+	else {
+		texteLettre.setAlpha(0);
+	}
 	if (levier1Actif && levier2Actif && levier3Actif){
         porte.setAlpha(0);
         porteOuverte.setAlpha(1);
