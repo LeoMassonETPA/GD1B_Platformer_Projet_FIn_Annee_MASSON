@@ -149,7 +149,7 @@ class Niveau1 extends Phaser.Scene{
     preload(){
         
         this.load.audio('BruitPas', 'assets/BruitPas.wav');
-        this.load.audio('Ambiance', 'assets/Ambiance.wav');
+        this.load.audio('Ambiance', 'assets/Ambiance.mp3');
         
         this.load.image('background','assets/background.png');
         this.load.image('background2','assets/Background2.png');
@@ -285,8 +285,8 @@ class Niveau1 extends Phaser.Scene{
 
         var musicConfig = {
             mute : false,
-            volume : 1,
-            rate : 1,
+            volume : 0.5,
+            rate : 1.2,
             deturne : 0,
             seek : 0,
             loop : false,
@@ -1358,6 +1358,7 @@ class Niveau1 extends Phaser.Scene{
             else if (canjump){
                 player.anims.play('rightLance', true);
                 player.setVelocityX(500); 
+				this.BruitPas.play();
             }
         }
             
@@ -1371,6 +1372,7 @@ class Niveau1 extends Phaser.Scene{
             else if (canjump){
             player.anims.play('rightLance', true);
             player.setVelocityX(-500);
+			this.BruitPas.play();
             }
         }
        
