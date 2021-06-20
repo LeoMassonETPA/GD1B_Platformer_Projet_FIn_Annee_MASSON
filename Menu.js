@@ -221,7 +221,7 @@ class Menu extends Phaser.Scene{
         porteOuverte1.setAlpha(1);
         texte1.setAlpha(1);
         if (keys.a.isDown){
-            this.scene.start("Niveau1");
+            this.scene.start("Intro");
         }
     }
     else {

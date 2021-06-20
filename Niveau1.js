@@ -142,8 +142,8 @@ var newTirJoueur;
 var direction;
 
 
-var posXplayer = 2300; // (debut : 700, 4053)
-var posYplayer = 250;
+var posXplayer = 700; // (debut : 700, 4053)
+var posYplayer = 4053;
 
 var musicConfigPorte;
 
@@ -298,6 +298,7 @@ class Niveau1 extends Phaser.Scene{
         obstacleM2 = this.physics.add.group({immovable:true});
         
 		// Caméra //
+		this.cameras.main.fadeIn(1000);
         this.cameras.main.setBounds(0, 0, 11520, 4320);
         this.physics.world.setBounds(0, 0, 11520, 4320);
         
