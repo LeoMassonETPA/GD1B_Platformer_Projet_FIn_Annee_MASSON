@@ -7,7 +7,7 @@ class Outro extends Phaser.Scene{
     }
     preload(){
         
-        this.load.image('Outro','assets/Intro.png');
+        this.load.image('Outro','assets/Outro.png');
 
       
         
