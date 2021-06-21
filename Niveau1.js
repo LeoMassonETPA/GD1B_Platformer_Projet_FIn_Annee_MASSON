@@ -1020,7 +1020,7 @@ class Niveau1 extends Phaser.Scene{
         zoneTexte5.setAlpha(1);
         }
         if (keys.a.isDown && player.x > 6486 && player.x < 7061 && player.y > 3000 && player.y < 3700){
-            this.scene.start("Scene1");
+            this.scene.start("Outro");
         }
     }	
         
